@@ -1,0 +1,145 @@
+[gd_scene load_steps=11 format=3 uid="uid://d2w0ogkf77q8y"]
+
+[ext_resource type="Script" path="res://Scripts/UI and More/PlayScpt.gd" id="1_jn3bg"]
+[ext_resource type="Texture2D" uid="uid://c4pwpalyttsaf" path="res://Sprites/Background/Pixel art - Céu.png" id="2_oqbqe"]
+[ext_resource type="Texture2D" uid="uid://bn7be5dduurpu" path="res://Sprites/Background/Pixel art - Estrelas.png" id="3_y0043"]
+[ext_resource type="Texture2D" uid="uid://dp5cx58of85fu" path="res://Sprites/Background/Pixel art - Meteoros.png" id="4_w6vo7"]
+[ext_resource type="FontFile" uid="uid://d2vf87jddjmuy" path="res://Micro_5,Roboto,VT323/VT323/VT323-Regular.ttf" id="5_ripay"]
+[ext_resource type="AudioStream" uid="uid://5h24loor5uih" path="res://Songs/FX'S/ButtonPressed.wav" id="6_8aov4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1dleu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_26t5t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w8ggi"]
+
+[sub_resource type="Theme" id="Theme_7p7hk"]
+Button/styles/disabled = SubResource("StyleBoxEmpty_1dleu")
+Button/styles/focus = SubResource("StyleBoxEmpty_26t5t")
+Button/styles/hover = SubResource("StyleBoxEmpty_w8ggi")
+
+[node name="Play" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jn3bg")
+scene_type = "UI"
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Céu" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(516, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Céu"]
+position = Vector2(-1, -1)
+texture = ExtResource("2_oqbqe")
+centered = false
+
+[node name="Estrelas" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(516, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Estrelas"]
+texture = ExtResource("3_y0043")
+centered = false
+
+[node name="Meteoros" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(516, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Meteoros"]
+texture = ExtResource("4_w6vo7")
+centered = false
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -158.0
+offset_right = 122.0
+offset_bottom = 35.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("5_ripay")
+theme_override_font_sizes/font_size = 35
+text = "Escolha a dificuldade"
+
+[node name="Easy" type="Button" parent="."]
+layout_mode = 2
+offset_left = 100.0
+offset_top = 137.5
+offset_right = 158.0
+offset_bottom = 177.5
+focus_neighbor_left = NodePath("../Hard")
+theme = SubResource("Theme_7p7hk")
+theme_override_colors/font_hover_color = Color(0.568627, 0.858824, 0.411765, 1)
+theme_override_colors/font_pressed_color = Color(0.568627, 0.858824, 0.411765, 1)
+theme_override_colors/font_focus_color = Color(0.568627, 0.858824, 0.411765, 1)
+theme_override_fonts/font = ExtResource("5_ripay")
+theme_override_font_sizes/font_size = 25
+text = "Fácil"
+flat = true
+alignment = 0
+
+[node name="Medium" type="Button" parent="."]
+layout_mode = 2
+offset_left = 200.0
+offset_top = 137.5
+offset_right = 268.0
+offset_bottom = 177.5
+theme = SubResource("Theme_7p7hk")
+theme_override_colors/font_hover_color = Color(0.835294, 0.878431, 0.294118, 1)
+theme_override_colors/font_pressed_color = Color(0.835294, 0.878431, 0.294118, 1)
+theme_override_colors/font_focus_color = Color(0.835294, 0.878431, 0.294118, 1)
+theme_override_fonts/font = ExtResource("5_ripay")
+theme_override_font_sizes/font_size = 25
+text = "Normal"
+flat = true
+alignment = 0
+
+[node name="Hard" type="Button" parent="."]
+layout_mode = 2
+offset_left = 300.0
+offset_top = 137.5
+offset_right = 378.0
+offset_bottom = 177.5
+focus_neighbor_right = NodePath("../Easy")
+theme = SubResource("Theme_7p7hk")
+theme_override_colors/font_hover_color = Color(0.909804, 0.231373, 0.231373, 1)
+theme_override_colors/font_pressed_color = Color(0.909804, 0.231373, 0.231373, 1)
+theme_override_colors/font_focus_color = Color(0.909804, 0.231373, 0.231373, 1)
+theme_override_fonts/font = ExtResource("5_ripay")
+theme_override_font_sizes/font_size = 25
+text = "Difícil"
+flat = true
+alignment = 0
+
+[node name="Back" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 78.0
+grow_vertical = 0
+focus_neighbor_right = NodePath("../Easy")
+theme = SubResource("Theme_7p7hk")
+theme_override_colors/font_hover_color = Color(0.333333, 0.333333, 0.333333, 1)
+theme_override_colors/font_pressed_color = Color(0.333333, 0.333333, 0.333333, 1)
+theme_override_colors/font_focus_color = Color(0.333333, 0.333333, 0.333333, 1)
+theme_override_fonts/font = ExtResource("5_ripay")
+theme_override_font_sizes/font_size = 25
+text = "Voltar
+"
+flat = true
+alignment = 0
+
+[node name="ButtonFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_8aov4")
+volume_db = 10.0
+
+[connection signal="pressed" from="Easy" to="." method="_on_easy_pressed"]
+[connection signal="pressed" from="Medium" to="." method="_on_medium_pressed"]
+[connection signal="pressed" from="Hard" to="." method="_on_hard_pressed"]
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]

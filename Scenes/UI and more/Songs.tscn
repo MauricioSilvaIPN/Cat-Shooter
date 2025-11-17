@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cyqr73fj54rld"]
+
+[ext_resource type="Script" path="res://Scripts/UI and More/Songs.gd" id="1_2sqi3"]
+[ext_resource type="AudioStream" uid="uid://bibbpvc5xcr6l" path="res://Songs/Musics/Cat-Shooter-Menu.wav" id="2_htoki"]
+[ext_resource type="AudioStream" uid="uid://b3sgd1pu0s0rm" path="res://Songs/Musics/Cat-Shooter-Main.wav" id="3_68mw1"]
+
+[node name="Songs" type="CanvasLayer"]
+script = ExtResource("1_2sqi3")
+
+[node name="MenuMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_htoki")
+volume_db = -5.0
+
+[node name="GameMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_68mw1")
+volume_db = -5.0
+
+[connection signal="finished" from="MenuMusic" to="." method="_on_menu_music_finished"]
+[connection signal="finished" from="GameMusic" to="." method="_on_game_music_finished"]

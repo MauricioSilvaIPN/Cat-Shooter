@@ -1,0 +1,166 @@
+[gd_scene load_steps=19 format=3 uid="uid://bmd1vjpbj3eqj"]
+
+[ext_resource type="Texture2D" uid="uid://c4pwpalyttsaf" path="res://Sprites/Background/Pixel art - Céu.png" id="1_d027y"]
+[ext_resource type="Script" path="res://Scripts/Arena/Tutorial.gd" id="1_fyyll"]
+[ext_resource type="Texture2D" uid="uid://bn7be5dduurpu" path="res://Sprites/Background/Pixel art - Estrelas.png" id="2_8f1b7"]
+[ext_resource type="Texture2D" uid="uid://dp5cx58of85fu" path="res://Sprites/Background/Pixel art - Meteoros.png" id="3_1faq0"]
+[ext_resource type="PackedScene" uid="uid://bxbvf77r36lne" path="res://Scenes/Player/Player.tscn" id="4_xia0a"]
+[ext_resource type="PackedScene" uid="uid://gq0ymofofd0v" path="res://Scenes/UI and more/HUD.tscn" id="5_mad6i"]
+[ext_resource type="PackedScene" uid="uid://cualngtio7f24" path="res://Scenes/NPC/NPC.tscn" id="7_cfmf1"]
+[ext_resource type="PackedScene" uid="uid://bi0bwx1ch8ndw" path="res://Scenes/NPC/Dialogue.tscn" id="8_cy68i"]
+[ext_resource type="PackedScene" uid="uid://bq22vt8kj5u2" path="res://Scenes/Enemies/Vacuum.tscn" id="9_dyvfq"]
+[ext_resource type="PackedScene" uid="uid://yg8kkjaqh0tc" path="res://Scenes/Enemies/Wool.tscn" id="10_4diur"]
+[ext_resource type="PackedScene" uid="uid://heeeg42xf4e4" path="res://Scenes/Enemies/Default.tscn" id="11_o7khd"]
+[ext_resource type="FontFile" uid="uid://d2vf87jddjmuy" path="res://Micro_5,Roboto,VT323/VT323/VT323-Regular.ttf" id="12_8ppau"]
+[ext_resource type="AudioStream" uid="uid://d3ixi3cpqjp3e" path="res://Songs/FX'S/Letter.wav" id="13_betnq"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pfru5"]
+height = 1536.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6k0pk"]
+size = Vector2(20, 389)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_df200"]
+size = Vector2(980, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ungsc"]
+size = Vector2(19, 388)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_abw51"]
+size = Vector2(597, 20)
+
+[node name="Tutorial" type="Node2D"]
+script = ExtResource("1_fyyll")
+scene_type = "Levels"
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Céu" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(516, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Céu"]
+texture = ExtResource("1_d027y")
+centered = false
+
+[node name="Estrelas" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(516, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Estrelas"]
+texture = ExtResource("2_8f1b7")
+centered = false
+
+[node name="Meteoros" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(516, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Meteoros"]
+texture = ExtResource("3_1faq0")
+centered = false
+
+[node name="Player" parent="." instance=ExtResource("4_xia0a")]
+position = Vector2(34, 144)
+
+[node name="NPC" parent="." instance=ExtResource("7_cfmf1")]
+position = Vector2(131, 74)
+
+[node name="Colisor" type="Area2D" parent="."]
+position = Vector2(400, -29)
+collision_layer = 0
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Colisor"]
+shape = SubResource("CapsuleShape2D_pfru5")
+
+[node name="EnemieDetector" type="Area2D" parent="."]
+position = Vector2(-10, -29)
+collision_layer = 0
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="EnemieDetector"]
+position = Vector2(0, 184.5)
+shape = SubResource("RectangleShape2D_6k0pk")
+
+[node name="EnemieDetector2" type="Area2D" parent="."]
+position = Vector2(-10, -29)
+collision_layer = 0
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="EnemieDetector2"]
+position = Vector2(500, 353)
+shape = SubResource("RectangleShape2D_df200")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Wall" type="StaticBody2D" parent="Walls"]
+collision_layer = 2
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Wall"]
+position = Vector2(-10.5, 155)
+shape = SubResource("RectangleShape2D_ungsc")
+
+[node name="Wall2" type="StaticBody2D" parent="Walls"]
+collision_layer = 2
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Wall2"]
+position = Vector2(297.5, -8)
+shape = SubResource("RectangleShape2D_abw51")
+
+[node name="Wall3" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, 330)
+collision_layer = 2
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Wall3"]
+position = Vector2(297.5, -8)
+shape = SubResource("RectangleShape2D_abw51")
+
+[node name="Wall4" type="StaticBody2D" parent="Walls"]
+position = Vector2(535, 0)
+collision_layer = 2
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Wall4"]
+position = Vector2(-10.5, 155)
+shape = SubResource("RectangleShape2D_ungsc")
+
+[node name="HUD" parent="." instance=ExtResource("5_mad6i")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("8_cy68i")]
+offset_left = 3.0
+offset_top = 237.0
+offset_right = 381.0
+offset_bottom = 305.0
+
+[node name="Vacuum" parent="." instance=ExtResource("9_dyvfq")]
+position = Vector2(426, -38)
+
+[node name="Wool" parent="." instance=ExtResource("10_4diur")]
+position = Vector2(967, 259)
+
+[node name="Enemies" parent="." instance=ExtResource("11_o7khd")]
+position = Vector2(956, 174)
+
+[node name="Boa" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 181.0
+offset_top = 110.0
+offset_right = 357.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("12_8ppau")
+theme_override_font_sizes/font_size = 35
+text = "Você concluiu o tutorial
+"
+
+[node name="LetterFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_betnq")
+volume_db = 10.0
+
+[connection signal="player_death" from="Player" to="." method="_on_player_player_death"]
+[connection signal="body_entered" from="Colisor" to="." method="_on_colisor_body_entered"]
+[connection signal="body_entered" from="EnemieDetector" to="." method="_on_enemie_detector_body_entered"]
+[connection signal="body_entered" from="EnemieDetector2" to="." method="_on_enemie_detector_body_entered"]
+[connection signal="last_enemie" from="Enemies" to="." method="_on_enemies_last_enemie"]

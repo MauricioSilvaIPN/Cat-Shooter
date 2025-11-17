@@ -1,0 +1,166 @@
+[gd_scene load_steps=17 format=3 uid="uid://yg8kkjaqh0tc"]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/WoolScpt.gd" id="1_d721a"]
+[ext_resource type="Shader" path="res://Shaders/FlashHit.gdshader" id="1_mqkxi"]
+[ext_resource type="Texture2D" uid="uid://bka28dep64dml" path="res://Sprites/Enemies/Wool/Pixel art - Novelo (Padrão).png" id="1_ol80f"]
+[ext_resource type="PackedScene" uid="uid://b2krohkc3k8ts" path="res://Scenes/Enemies/DeathParticles.tscn" id="2_26q3l"]
+[ext_resource type="Script" path="res://Scripts/States/Main/StatesScpt.gd" id="3_wo2ga"]
+[ext_resource type="Script" path="res://Scripts/States/WalkScpt.gd" id="4_qd563"]
+[ext_resource type="Script" path="res://Scripts/States/DeathScpt.gd" id="5_781rl"]
+[ext_resource type="AudioStream" uid="uid://bffkg8ga336vm" path="res://Songs/FX'S/Hit.mp3" id="8_t1rih"]
+[ext_resource type="AudioStream" uid="uid://bqux8f0b3qwee" path="res://Songs/FX'S/EnemyLaser.mp3" id="9_v73jd"]
+[ext_resource type="AudioStream" uid="uid://c6hnkn17orfut" path="res://Songs/FX'S/Explosion.wav" id="10_hrknx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nwlx4"]
+resource_local_to_scene = true
+shader = ExtResource("1_mqkxi")
+shader_parameter/flash_range = 0.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1nrqf"]
+
+[sub_resource type="Animation" id="Animation_m4l5k"]
+resource_name = "Idle"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_ol80f")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_2h6rn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_ol80f")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mjtay"]
+_data = {
+"Idle": SubResource("Animation_m4l5k"),
+"RESET": SubResource("Animation_2h6rn")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_abohw"]
+radius = 10.5
+
+[node name="Wool" type="CharacterBody2D" groups=["Enemies"]]
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_d721a")
+life = 1
+speed = -250
+enemie_type = "Walker"
+particles_inst = ExtResource("2_26q3l")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_nwlx4")
+texture = ExtResource("1_ol80f")
+hframes = 4
+
+[node name="Col" type="CollisionShape2D" parent="."]
+position = Vector2(1, 2)
+shape = SubResource("CircleShape2D_1nrqf")
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mjtay")
+}
+autoplay = "Idle"
+
+[node name="States" type="Node2D" parent="."]
+script = ExtResource("3_wo2ga")
+
+[node name="Walk" type="Node2D" parent="States"]
+script = ExtResource("4_qd563")
+
+[node name="Death" type="Node2D" parent="States"]
+script = ExtResource("5_781rl")
+
+[node name="Detector" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="Col" type="CollisionShape2D" parent="Detector"]
+modulate = Color(1, 0, 1, 1)
+position = Vector2(1, 2)
+shape = SubResource("CircleShape2D_abohw")
+
+[node name="WaitTimer" type="Timer" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="HitFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_t1rih")
+
+[node name="LaserFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_v73jd")
+
+[node name="ExplosionFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_hrknx")
+volume_db = 8.0
+
+[connection signal="body_entered" from="Detector" to="." method="_on_detector_body_entered"]

@@ -1,0 +1,174 @@
+[gd_scene load_steps=18 format=3 uid="uid://bxy603w4i2331"]
+
+[ext_resource type="PackedScene" uid="uid://bxbvf77r36lne" path="res://Scenes/Player/Player.tscn" id="1_d515c"]
+[ext_resource type="Script" path="res://Scripts/Arena/MainScpt.gd" id="1_hi2df"]
+[ext_resource type="PackedScene" uid="uid://heeeg42xf4e4" path="res://Scenes/Enemies/Default.tscn" id="2_5gkwe"]
+[ext_resource type="PackedScene" uid="uid://yg8kkjaqh0tc" path="res://Scenes/Enemies/Wool.tscn" id="2_55l1r"]
+[ext_resource type="PackedScene" uid="uid://bq22vt8kj5u2" path="res://Scenes/Enemies/Vacuum.tscn" id="4_cpqp0"]
+[ext_resource type="Texture2D" uid="uid://c4pwpalyttsaf" path="res://Sprites/Background/Pixel art - Céu.png" id="5_ywxrw"]
+[ext_resource type="Texture2D" uid="uid://bn7be5dduurpu" path="res://Sprites/Background/Pixel art - Estrelas.png" id="6_pyt0e"]
+[ext_resource type="Texture2D" uid="uid://dp5cx58of85fu" path="res://Sprites/Background/Pixel art - Meteoros.png" id="7_dd74o"]
+[ext_resource type="PackedScene" uid="uid://gq0ymofofd0v" path="res://Scenes/UI and more/HUD.tscn" id="9_cd5g7"]
+[ext_resource type="PackedScene" uid="uid://b8ww0rey11376" path="res://Scenes/Enemies/Boss/Boss.tscn" id="9_hpakw"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fcy66"]
+height = 1536.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gtttr"]
+size = Vector2(20, 389)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yyiux"]
+size = Vector2(983, 76)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_870da"]
+size = Vector2(19, 388)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aibca"]
+size = Vector2(597, 20)
+
+[sub_resource type="Curve2D" id="Curve2D_4m4t3"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1414.5, 103.912, 0, 0, 0, 0, 1413.96, 228.991, 0, 0, 0, 0, 1414.5, 355.995)
+}
+point_count = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_20lhw"]
+bg_color = Color(0.682353, 0.137255, 0.203922, 1)
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_hi2df")
+enemie_intan = Array[PackedScene]([ExtResource("2_55l1r"), ExtResource("2_5gkwe")])
+vacuum_inst = ExtResource("4_cpqp0")
+scene_type = "Levels"
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Céu" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(516, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Céu"]
+position = Vector2(-1, -1)
+texture = ExtResource("5_ywxrw")
+centered = false
+
+[node name="Estrelas" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(516, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Estrelas"]
+texture = ExtResource("6_pyt0e")
+centered = false
+
+[node name="Meteoros" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(516, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Meteoros"]
+texture = ExtResource("7_dd74o")
+centered = false
+
+[node name="Player" parent="." instance=ExtResource("1_d515c")]
+position = Vector2(34, 144)
+
+[node name="EnemieContainer" type="Node2D" parent="."]
+
+[node name="Boss" parent="EnemieContainer" instance=ExtResource("9_hpakw")]
+position = Vector2(818, 142)
+
+[node name="Colisor" type="Area2D" parent="."]
+position = Vector2(400, -29)
+collision_layer = 0
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Colisor"]
+shape = SubResource("CapsuleShape2D_fcy66")
+
+[node name="EnemieDetector" type="Area2D" parent="."]
+position = Vector2(-10, -29)
+collision_layer = 0
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="EnemieDetector"]
+position = Vector2(0, 184.5)
+shape = SubResource("RectangleShape2D_gtttr")
+
+[node name="EnemieDetector2" type="Area2D" parent="."]
+position = Vector2(-10, -29)
+collision_layer = 0
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="EnemieDetector2"]
+position = Vector2(501.5, 381)
+shape = SubResource("RectangleShape2D_yyiux")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Wall" type="StaticBody2D" parent="Walls"]
+collision_layer = 2
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Wall"]
+position = Vector2(-10.5, 155)
+shape = SubResource("RectangleShape2D_870da")
+
+[node name="Wall2" type="StaticBody2D" parent="Walls"]
+collision_layer = 2
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Wall2"]
+position = Vector2(297.5, -8)
+shape = SubResource("RectangleShape2D_aibca")
+
+[node name="Wall3" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, 330)
+collision_layer = 2
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Wall3"]
+position = Vector2(297.5, -8)
+shape = SubResource("RectangleShape2D_aibca")
+
+[node name="Wall4" type="StaticBody2D" parent="Walls"]
+position = Vector2(535, 0)
+collision_layer = 2
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Wall4"]
+position = Vector2(-10.5, 155)
+shape = SubResource("RectangleShape2D_870da")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.5
+
+[node name="BossTimer" type="Timer" parent="."]
+wait_time = 120.0
+
+[node name="MobPath" type="Path2D" parent="."]
+position = Vector2(-2050, -85)
+scale = Vector2(1.87063, 1.03934)
+curve = SubResource("Curve2D_4m4t3")
+
+[node name="MobSpawn" type="PathFollow2D" parent="MobPath"]
+position = Vector2(1414.5, 103.912)
+rotation = 1.57511
+
+[node name="HUD" parent="." instance=ExtResource("9_cd5g7")]
+
+[node name="BossLife" type="ProgressBar" parent="."]
+visible = false
+offset_left = 281.0
+offset_top = 302.0
+offset_right = 512.0
+offset_bottom = 310.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_20lhw")
+max_value = 50.0
+step = 1.0
+value = 50.0
+show_percentage = false
+
+[connection signal="player_death" from="Player" to="." method="_on_player_player_death"]
+[connection signal="boss_death" from="EnemieContainer/Boss" to="." method="_on_boss_boss_death"]
+[connection signal="body_entered" from="Colisor" to="." method="_on_colisor_body_entered"]
+[connection signal="body_entered" from="EnemieDetector" to="." method="_on_enemie_detector_body_entered"]
+[connection signal="body_entered" from="EnemieDetector2" to="." method="_on_enemie_detector_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="BossTimer" to="." method="_on_boss_timer_timeout"]

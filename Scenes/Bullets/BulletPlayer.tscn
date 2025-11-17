@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://cmieaeb5wa4gn"]
+
+[ext_resource type="Script" path="res://Scripts/Bullets/BulletsScpt.gd" id="1_jq2fw"]
+[ext_resource type="Texture2D" uid="uid://2118ssnm1dqp" path="res://Sprites/Bullets/Pixel art - Projétil do Player.png" id="2_3yp6x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ip5ur"]
+atlas = ExtResource("2_3yp6x")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfrvx"]
+atlas = ExtResource("2_3yp6x")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p7onl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ip5ur")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qfrvx")
+}],
+"loop": true,
+"name": &"Float",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bvi8s"]
+size = Vector2(10, 3)
+
+[node name="BulletPlayer" type="Area2D"]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_jq2fw")
+
+[node name="Anim" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_p7onl")
+animation = &"Float"
+autoplay = "Float"
+frame_progress = 0.616942
+
+[node name="Col" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0.5)
+shape = SubResource("RectangleShape2D_bvi8s")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0.5, 0.5)
+scale = Vector2(0.65, 0.25)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

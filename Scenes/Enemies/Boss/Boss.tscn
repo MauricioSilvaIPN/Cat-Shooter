@@ -1,0 +1,358 @@
+[gd_scene load_steps=27 format=3 uid="uid://b8ww0rey11376"]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/BossScpt.gd" id="1_u0nyu"]
+[ext_resource type="Shader" path="res://Shaders/FlashHit.gdshader" id="1_yxy81"]
+[ext_resource type="PackedScene" uid="uid://yg8kkjaqh0tc" path="res://Scenes/Enemies/Wool.tscn" id="2_dhv6d"]
+[ext_resource type="Texture2D" uid="uid://cl617j3xwstd8" path="res://Sprites/Enemies/Boss/Pixel art - Boss(Parado).png" id="2_e1k7g"]
+[ext_resource type="Script" path="res://Scripts/States/Main/StatesScpt.gd" id="2_mghtr"]
+[ext_resource type="PackedScene" uid="uid://bs0q3pb7hbcis" path="res://Scenes/Bullets/EnemieBullet.tscn" id="2_ngi63"]
+[ext_resource type="PackedScene" uid="uid://b2krohkc3k8ts" path="res://Scenes/Enemies/DeathParticles.tscn" id="3_bdqvl"]
+[ext_resource type="Texture2D" uid="uid://73wfc8k758ms" path="res://Sprites/Enemies/Boss/Pixel art - Boss(Atirar).png" id="3_ibytx"]
+[ext_resource type="Texture2D" uid="uid://oab766l8fm0o" path="res://Sprites/Enemies/Boss/Pixel art - Boss(Preparar).png" id="4_npg4f"]
+[ext_resource type="Script" path="res://Scripts/States/Boss/WalkBoss.gd" id="6_1hhfo"]
+[ext_resource type="Script" path="res://Scripts/States/Boss/ShootBossScpt.gd" id="8_4hc07"]
+[ext_resource type="Script" path="res://Scripts/States/Boss/PrepareScpt.gd" id="9_066qn"]
+[ext_resource type="Script" path="res://Scripts/States/DeathScpt.gd" id="9_mqtah"]
+[ext_resource type="Script" path="res://Scripts/States/Boss/IdleScpt.gd" id="12_tdocp"]
+[ext_resource type="Script" path="res://Scripts/States/Boss/RageScpt.gd" id="15_omc7r"]
+[ext_resource type="AudioStream" uid="uid://bffkg8ga336vm" path="res://Songs/FX'S/Hit.mp3" id="16_oce5y"]
+[ext_resource type="AudioStream" uid="uid://bqux8f0b3qwee" path="res://Songs/FX'S/EnemyLaser.mp3" id="17_8lhfw"]
+[ext_resource type="AudioStream" uid="uid://c6hnkn17orfut" path="res://Songs/FX'S/Explosion.wav" id="18_cqq1u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ovab"]
+resource_local_to_scene = true
+shader = ExtResource("1_yxy81")
+shader_parameter/flash_range = 0.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dg4ra"]
+radius = 28.0179
+
+[sub_resource type="Animation" id="Animation_jlpiw"]
+resource_name = "Idle"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_e1k7g")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_1i6cl"]
+resource_name = "Prepare"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_npg4f")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("States/Prepare")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.333333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"spawn_minions"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_yayx8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_e1k7g")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_5p5bv"]
+resource_name = "Rage"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_ibytx")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1, 2, 3, 4]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("States/Rage")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.4, 0.433333),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"spawn_minions"
+}, {
+"args": [],
+"method": &"shooting"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_eq1xf"]
+resource_name = "Shoot"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_ibytx")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("States/Shoot")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.466667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"shooting"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8pdgi"]
+_data = {
+"Idle": SubResource("Animation_jlpiw"),
+"Prepare": SubResource("Animation_1i6cl"),
+"RESET": SubResource("Animation_yayx8"),
+"Rage": SubResource("Animation_5p5bv"),
+"Shoot": SubResource("Animation_eq1xf")
+}
+
+[node name="Boss" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_u0nyu")
+minions_inst = ExtResource("2_dhv6d")
+life = 50
+speed = -85
+enemie_type = "Boss"
+particles_inst = ExtResource("3_bdqvl")
+bullet_insta = ExtResource("2_ngi63")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_8ovab")
+texture = ExtResource("2_e1k7g")
+hframes = 4
+
+[node name="Col" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_dg4ra")
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8pdgi")
+}
+autoplay = "Idle"
+
+[node name="States" type="Node2D" parent="."]
+script = ExtResource("2_mghtr")
+
+[node name="Walk" type="Node2D" parent="States"]
+script = ExtResource("6_1hhfo")
+
+[node name="Shoot" type="Node2D" parent="States"]
+script = ExtResource("8_4hc07")
+
+[node name="Prepare" type="Node2D" parent="States"]
+script = ExtResource("9_066qn")
+
+[node name="Death" type="Node2D" parent="States"]
+script = ExtResource("9_mqtah")
+
+[node name="Idle" type="Node2D" parent="States"]
+script = ExtResource("12_tdocp")
+
+[node name="Rage" type="Node2D" parent="States"]
+script = ExtResource("15_omc7r")
+
+[node name="TimeToShoot" type="Timer" parent="."]
+wait_time = 8.0
+
+[node name="TimeToMinions" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(-19, 15)
+
+[node name="HitFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("16_oce5y")
+
+[node name="LaserFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("17_8lhfw")
+
+[node name="ExplosionFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("18_cqq1u")
+volume_db = 8.0
+
+[node name="MonstersSpawn" type="Marker2D" parent="."]
+position = Vector2(-19, 25)
+
+[connection signal="animation_finished" from="Anim" to="States/Shoot" method="_on_anim_animation_finished"]
+[connection signal="animation_finished" from="Anim" to="States/Prepare" method="_on_anim_animation_finished"]
+[connection signal="timeout" from="TimeToShoot" to="States/Idle" method="_on_time_to_shoot_timeout"]
+[connection signal="timeout" from="TimeToMinions" to="States/Idle" method="_on_time_to_minions_timeout"]

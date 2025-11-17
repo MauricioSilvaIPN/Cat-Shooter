@@ -1,0 +1,128 @@
+[gd_scene load_steps=15 format=3 uid="uid://csogixx1wylan"]
+
+[ext_resource type="Script" path="res://Scripts/UI and More/UIScpt.gd" id="1_suiy8"]
+[ext_resource type="Texture2D" uid="uid://c4pwpalyttsaf" path="res://Sprites/Background/Pixel art - Céu.png" id="2_u5tix"]
+[ext_resource type="Texture2D" uid="uid://bn7be5dduurpu" path="res://Sprites/Background/Pixel art - Estrelas.png" id="3_b4rfd"]
+[ext_resource type="Texture2D" uid="uid://dp5cx58of85fu" path="res://Sprites/Background/Pixel art - Meteoros.png" id="4_td7k1"]
+[ext_resource type="FontFile" uid="uid://d2vf87jddjmuy" path="res://Micro_5,Roboto,VT323/VT323/VT323-Regular.ttf" id="5_jgbkg"]
+[ext_resource type="AudioStream" uid="uid://5h24loor5uih" path="res://Songs/FX'S/ButtonPressed.wav" id="6_wkn8v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3ngxw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_poxnj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2o6x2"]
+
+[sub_resource type="Theme" id="Theme_snf4e"]
+Button/styles/disabled = SubResource("StyleBoxEmpty_3ngxw")
+Button/styles/focus = SubResource("StyleBoxEmpty_poxnj")
+Button/styles/hover = SubResource("StyleBoxEmpty_2o6x2")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6pmcy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgxpj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eqdcq"]
+
+[sub_resource type="Theme" id="Theme_1abe8"]
+Button/styles/disabled = SubResource("StyleBoxEmpty_6pmcy")
+Button/styles/focus = SubResource("StyleBoxEmpty_fgxpj")
+Button/styles/hover = SubResource("StyleBoxEmpty_eqdcq")
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_suiy8")
+scene_type = "UI"
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Céu" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(516, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Céu"]
+position = Vector2(-1, -1)
+texture = ExtResource("2_u5tix")
+centered = false
+
+[node name="Estrelas" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(516, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Estrelas"]
+texture = ExtResource("3_b4rfd")
+centered = false
+
+[node name="Meteoros" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(516, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Meteoros"]
+texture = ExtResource("4_td7k1")
+centered = false
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 230.0
+offset_bottom = 60.0
+theme_override_fonts/font = ExtResource("5_jgbkg")
+theme_override_font_sizes/font_size = 50
+text = "Cat Shooter"
+
+[node name="Interaction" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 85.0
+offset_right = 98.0
+offset_bottom = 155.0
+alignment = 1
+
+[node name="Play" type="Button" parent="Interaction"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Credits")
+theme = SubResource("Theme_snf4e")
+theme_override_colors/font_hover_color = Color(0.333333, 0.333333, 0.333333, 1)
+theme_override_colors/font_pressed_color = Color(0.333333, 0.333333, 0.333333, 1)
+theme_override_colors/font_focus_color = Color(0.333333, 0.333333, 0.333333, 1)
+theme_override_fonts/font = ExtResource("5_jgbkg")
+theme_override_font_sizes/font_size = 25
+text = "Jogar"
+flat = true
+alignment = 0
+
+[node name="Tutorial" type="Button" parent="Interaction"]
+layout_mode = 2
+theme = SubResource("Theme_snf4e")
+theme_override_colors/font_hover_color = Color(0.333333, 0.333333, 0.333333, 1)
+theme_override_colors/font_pressed_color = Color(0.333333, 0.333333, 0.333333, 1)
+theme_override_colors/font_focus_color = Color(0.333333, 0.333333, 0.333333, 1)
+theme_override_fonts/font = ExtResource("5_jgbkg")
+theme_override_font_sizes/font_size = 25
+text = "Tutorial"
+flat = true
+alignment = 0
+
+[node name="Credits" type="Button" parent="Interaction"]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../Play")
+theme = SubResource("Theme_1abe8")
+theme_override_colors/font_hover_color = Color(0.333333, 0.333333, 0.333333, 1)
+theme_override_colors/font_pressed_color = Color(0.333333, 0.333333, 0.333333, 1)
+theme_override_colors/font_focus_color = Color(0.333333, 0.333333, 0.333333, 1)
+theme_override_fonts/font = ExtResource("5_jgbkg")
+theme_override_font_sizes/font_size = 25
+text = "Créditos"
+flat = true
+alignment = 0
+
+[node name="ButtonFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_wkn8v")
+volume_db = 10.0
+
+[connection signal="pressed" from="Interaction/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Interaction/Tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="Interaction/Credits" to="." method="_on_credits_pressed"]
